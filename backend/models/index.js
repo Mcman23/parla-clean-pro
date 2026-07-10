@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
 const User = sequelize.define('User', {
   username: { type: DataTypes.STRING, unique: true },
   email: { type: DataTypes.STRING, unique: true },
-  password: DataTypes.STRING,
+  password: DataTypes.STRING, // MD5 hash
   role: { type: DataTypes.STRING, defaultValue: 'admin' } // or 'staff'
 })
 
@@ -18,7 +18,7 @@ const Customer = sequelize.define('Customer', {
   phone: { type: DataTypes.STRING, allowNull: false },
   email: DataTypes.STRING,
   address: DataTypes.STRING,
-  status: { type: DataTypes.STRING, defaultValue: 'aktiv' } // aktiv / passiv
+  status: { type: DataTypes.STRING, defaultValue: 'aktiv' }
 })
 
 const Service = sequelize.define('Service', {
@@ -43,14 +43,14 @@ const Order = sequelize.define('Order', {
   address: DataTypes.STRING,
   date: DataTypes.DATEONLY,
   amount: DataTypes.DECIMAL(10, 2),
-  status: { type: DataTypes.STRING, defaultValue: 'yeni' } // yeni, gözləyir, gedişdə, tamamlandı, ləğv
+  status: { type: DataTypes.STRING, defaultValue: 'yeni' }
 })
 
 const Payment = sequelize.define('Payment', {
   orderId: { type: DataTypes.INTEGER, allowNull: false },
   amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-  method: { type: DataTypes.STRING, defaultValue: 'nağd' }, // nağd, kart, köçürmə
-  status: { type: DataTypes.STRING, defaultValue: 'gözləyir' } // gözləyir, ödənilib, ləğv
+  method: { type: DataTypes.STRING, defaultValue: 'nağd' },
+  status: { type: DataTypes.STRING, defaultValue: 'gözləyir' }
 })
 
 // Associations

@@ -1,15 +1,14 @@
 -- ============================================================
 -- Parla Təmizlik — MySQL seed data
 -- sequelize.sync({ alter: true }) cədvəlləri avtomatik yaradır
--- Bu fayl yalnız ilkin məlumatları (admin user, xidmətlər, işçilər) əlavə edir
--- Render-da server ilk açılanda sync olunur, sonra bunu işə salın
+-- Bu fayl yalnız ilkin məlumatları əlavə edir
 -- ============================================================
 
 USE parla_clean;
 
--- Default admin user (şifrə: admin123 — bcrypt ilə hash olunub)
+-- Default admin user (şifrə: admin123 — MD5 ilə)
 INSERT INTO Users (username, email, password, role, createdAt, updatedAt)
-SELECT 'admin', 'admin@parla.az', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'admin', NOW(), NOW()
+SELECT 'admin', 'admin@parla.az', MD5('admin123'), 'admin', NOW(), NOW()
 WHERE NOT EXISTS (SELECT id FROM Users WHERE username = 'admin');
 
 -- Xidmətlər
@@ -18,6 +17,8 @@ SELECT * FROM (
   SELECT 'Ev təmizliyi' AS name, 15.00 AS price, '1-2 nəfər' AS workers, 'aktiv' AS status, NOW() AS createdAt, NOW() AS updatedAt
   UNION SELECT 'Ofis təmizliyi', 20.00, '2-4 nəfər', 'aktiv', NOW(), NOW()
   UNION SELECT 'Pəncərə yuyulması', 12.00, '1 nəfər', 'aktiv', NOW(), NOW()
+  UNION SELECT 'Tikinti sonrası', 30.00, '2-3 nəfər', 'aktiv', NOW(), NOW()
+  UNION SELECT 'Mebl təmizliyi', 18.00, '1 nəfər', 'aktiv', NOW(), NOW()
   UNION SELECT 'Dezinfeksiya', 25.00, '2 nəfər', 'aktiv', NOW(), NOW()
 ) AS s
 WHERE NOT EXISTS (SELECT id FROM Services WHERE name = s.name);

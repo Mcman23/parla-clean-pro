@@ -1,10 +1,14 @@
 // backend/routes/auth.js
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
 const config = require('../config')
 const { User } = require('../models')
 const auth = require('../middleware/auth')
+
+function md5(str) {
+  return crypto.createHash('md5').update(str).digest('hex')
+}
 
 // POST /api/auth/login
 router.post('/login', async (req, res, next) => {
@@ -15,8 +19,7 @@ router.post('/login', async (req, res, next) => {
     const user = await User.findOne({ where: { username } })
     if (!user) return res.status(401).json({ error: 'İstifadəçi tapılmadı' })
 
-    const match = await bcrypt.compare(password, user.password)
-    if (!match) return res.status(401).json({ error: 'Yanlış şifrə' })
+    if (user.password !== md5(password)) return res.status(401).json({ error: 'Yanlış şifrə' })
 
     const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.jwt.secret, { expiresIn: config.jwt.expiresIn })
     res.json({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } })
@@ -37,7 +40,7 @@ router.post('/register', auth, async (req, res, next) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ error: 'Yalnız admin' })
     const { username, email, password, role } = req.body
-    const user = await User.create({ username, email, password, role: role || 'staff' })
+    const user = await User.create({ username, email, password: md5(password), role: role || 'staff' })
     res.status(201).json({ id: user.id, username: user.username, email: user.email, role: user.role })
   } catch (err) { next(err) }
 })
