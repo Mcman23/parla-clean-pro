@@ -21,7 +21,7 @@ async function api(url, method = 'GET', body = null) {
   const opts = { method, headers: authHeaders() }
   if (body) opts.body = JSON.stringify(body)
   const res = await fetch(`${API_URL}${url}`, opts)
-  if (res.status === 401) { clearToken(); window.location.href = 'admin.html'; return }
+  if (res.status === 401) { clearToken(); window.location.href = 'gsmv.html'; return }
   const data = await res.json()
   if (!res.ok) throw new Error(data.error || 'Xəta')
   return data
