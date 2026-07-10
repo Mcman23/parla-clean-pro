@@ -1,216 +1,181 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parla Təmizlik | Admin Panel</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Parla Təmizlik – Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-        <div class="logo">
-            <span class="logo-icon">✨</span>
-            <span>Parla<span class="accent">Admin</span></span>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">✨ <span>Parla<span class="accent">Admin</span></span></div>
+    <nav class="nav-links">
+      <a href="#dashboard" class="active" data-page="dashboard">📊 Panel</a>
+      <a href="#orders" data-page="orders">🧾 Sifarişlər</a>
+      <a href="#customers" data-page="customers">👥 Müştərilər</a>
+      <a href="#employees" data-page="employees">🧑‍🔧 İşçilər</a>
+      <a href="#services" data-page="services">🧽 Xidmətlər</a>
+      <a href="#payments" data-page="payments">💳 Ödənişlər</a>
+      <a href="#finance" data-page="finance">💰 Maliyyə</a>
+      <a href="#settings" data-page="settings">⚙️ Tənzimləmələr</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="avatar">AD</div>
+        <div><strong>Admin User</strong><small>admin@parla.az</small></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <button id="menuBtn">☰</button>
+      <div class="search"><input type="text" placeholder="Axtar"><span>🔍</span></div>
+      <div class="topbar-right">
+        <button class="icon-btn">🔔<span class="badge-dot"></span></button>
+        <button class="icon-btn">🌙</button>
+        <div class="profile"><div class="avatar">AD</div></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page active">
+        <div class="page-head">
+          <div><h1>Xoş gəlmisiniz, Admin 👋</h1><p>Bugünkü ümumi vəziyyət.</p></div>
+          <button class="btn btn-primary">+ Yeni sifariş</button>
         </div>
-        <nav class="nav-menu">
-            <a href="#" class="active" data-page="dashboard"><span>📊</span> Panel</a>
-            <a href="#" data-page="orders"><span>🧾</span> Sifarişlər</a>
-            <a href="#" data-page="customers"><span>👥</span> Müştərilər</a>
-            <a href="#" data-page="employees"><span>🧑‍🔧</span> İşçilər</a>
-            <a href="#" data-page="services"><span>🧽</span> Xidmətlər</a>
-            <a href="#" data-page="finance"><span>💰</span> Maliyyə</a>
-            <a href="#" data-page="settings"><span>⚙️</span> Tənzimləmələr</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="user-mini">
-                <div class="avatar">AD</div>
-                <div>
-                    <strong>Admin User</strong>
-                    <small>admin@parla.az</small>
-                </div>
-            </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon blue">🧾</div><div><h3 id="stat-orders">142</h3><p>Bu ay sifariş</p><span class="up">↑ 12%</span></div></div>
+          <div class="stat-card"><div class="stat-icon green">💰</div><div><h3 id="stat-income">₼ 18,450</h3><p>Aylıq gəlir</p><span class="up">↑ 8%</span></div></div>
+          <div class="stat-card"><div class="stat-icon orange">👥</div><div><h3 id="stat-customers">89</h3><p>Aktiv müştəri</p><span class="up">↑ 5%</span></div></div>
+          <div class="stat-card"><div class="stat-icon purple">🧑‍🔧</div><div><h3 id="stat-employees">14</h3><p>İşçi heyəti</p><span class="down">↓ 2%</span></div></div>
         </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <button class="menu-btn" id="menuBtn">☰</button>
-            <div class="search">
-                <input type="text" placeholder="Axtarış...">
-                <span>🔍</span>
-            </div>
-            <div class="topbar-right">
-                <button class="icon-btn">🔔<span class="badge-dot"></span></button>
-                <button class="icon-btn">🌙</button>
-                <div class="profile">
-                    <div class="avatar">AD</div>
-                </div>
-            </div>
-        </header>
-
-        <!-- CONTENT -->
-        <div class="content">
-
-            <!-- DASHBOARD -->
-            <section class="page active" id="dashboard">
-                <div class="page-head">
-                    <div>
-                        <h1>Xoş gəlmisiniz, Admin 👋</h1>
-                        <p>Bugünkü ümumi vəziyyət aşağıdadır.</p>
-                    </div>
-                    <button class="btn btn-primary">+ Yeni sifariş</button>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">🧾</div>
-                        <div><h3 id="stat-orders">142</h3><p>Bu ay sifariş</p><span class="up">↑ 12%</span></div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon green">💰</div>
-                        <div><h3 id="stat-income">₼ 18,450</h3><p>Aylıq gəlir</p><span class="up">↑ 8%</span></div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon orange">👥</div>
-                        <div><h3 id="stat-customers">89</h3><p>Aktiv müştəri</p><span class="up">↑ 5%</span></div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon purple">🧑‍🔧</div>
-                        <div><h3 id="stat-employees">14</h3><p>İşçi heyəti</p><span class="down">↓ 2%</span></div>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-head">
-                            <h3>Aylıq gəlir qrafiki</h3>
-                            <select class="mini-select"><option>2026</option></select>
-                        </div>
-                        <canvas id="revenueChart" height="120"></canvas>
-                    </div>
-                    <div class="card">
-                        <div class="card-head">
-                            <h3>Xidmət bölgüsü</h3>
-                        </div>
-                        <canvas id="serviceChart" height="200"></canvas>
-                    </div>
-                </div>
-
-                <div class="card mt-20">
-                    <div class="card-head">
-                        <h3>Son sifarişlər</h3>
-                        <a href="#" class="link">Hamısı →</a>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr><th>Müştəri</th><th>Xidmət</th><th>Ünvan</th><th>Status</th><th>Məbləğ</th></tr>
-                        </thead>
-                        <tbody id="recent-orders">
-                            <tr><td>Leyla Məmmədova</td><td>Ev təmizliyi</td><td>Nərimanov</td><td><span class="tag green">Tamamlandı</span></td><td>₼ 45</td></tr>
-                            <tr><td>Elvin Həsənli</td><td>Ofis təmizliyi</td><td>Yasamal</td><td><span class="tag blue">Gedişdə</span></td><td>₼ 120</td></tr>
-                            <tr><td>Aynur Əliyeva</td><td>Pəncərə yuyulması</td><td>Xətai</td><td><span class="tag yellow">Gözləyir</span></td><td>₼ 30</td></tr>
-                            <tr><td>Cavid Rəhimov</td><td>Dezinfeksiya</td><td>Binəqədi</td><td><span class="tag red">Ləğv</span></td><td>—</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ORDERS -->
-            <section class="page" id="orders">
-                <div class="page-head">
-                    <h1>🧾 Sifarişlər</h1>
-                    <button class="btn btn-primary">+ Yeni sifariş</button>
-                </div>
-                <div class="card">
-                    <table class="table full">
-                        <thead>
-                            <tr><th>#ID</th><th>Müştəri</th><th>Xidmət</th><th>Tarix</th><th>İşçi</th><th>Status</th><th>Əməliyyat</th></tr>
-                        </thead>
-                        <tbody id="orders-body">
-                            <tr><td>#1042</td><td>Leyla Məmmədova</td><td>Ev təmizliyi</td><td>10.07.2026</td><td>Əli R.</td><td><span class="tag green">Tamamlandı</span></td><td><button class="btn-sm">Bax</button></td></tr>
-                            <tr><td>#1043</td><td>Elvin Həsənli</td><td>Ofis təmizliyi</td><td>10.07.2026</td><td>Zeynəb K.</td><td><span class="tag blue">Gedişdə</span></td><td><button class="btn-sm">Bax</button></td></tr>
-                            <tr><td>#1044</td><td>Aynur Əliyeva</td><td>Pəncərə</td><td>11.07.2026</td><td>—</td><td><span class="tag yellow">Gözləyir</span></td><td><button class="btn-sm">Bax</button></td></tr>
-                            <tr><td>#1045</td><td>Kamran Quliyev</td><td>Dezinfeksiya</td><td>11.07.2026</td><td>Təyin edilməyib</td><td><span class="tag gray">Yeni</span></td><td><button class="btn-sm">Bax</button></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- CUSTOMERS -->
-            <section class="page" id="customers">
-                <div class="page-head"><h1>👥 Müştərilər</h1></div>
-                <div class="card">
-                    <table class="table full">
-                        <thead><tr><th>Ad</th><th>Telefon</th><th>Ünvan</th><th>Sifariş</th><th>Status</th></tr></thead>
-                        <tbody id="customers-body">
-                            <tr><td>Leyla Məmmədova</td><td>+994 50 123 45 67</td><td>Nərimanov r.</td><td>12</td><td><span class="tag green">Aktiv</span></td></tr>
-                            <tr><td>Elvin Həsənli</td><td>+994 55 987 65 43</td><td>Yasamal</td><td>8</td><td><span class="tag green">Aktiv</span></td></tr>
-                            <tr><td>Aynur Əliyeva</td><td>+994 70 111 22 33</td><td>Xətai</td><td>5</td><td><span class="tag gray">Passiv</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- EMPLOYEES -->
-            <section class="page" id="employees">
-                <div class="page-head"><h1>🧑‍🔧 İşçilər</h1><button class="btn btn-primary">+ İşçi əlavə et</button></div>
-                <div class="emp-grid" id="employees-grid">
-                    <div class="emp-card"><div class="avatar lg">ƏR</div><h4>Əli Rəhimov</h4><small>Ev təmizliyi</small><p class="rate">⭐ 4.8</p></div>
-                    <div class="emp-card"><div class="avatar lg">ZK</div><h4>Zeynəb Kərimova</h4><small>Ofis / Korporativ</small><p class="rate">⭐ 4.9</p></div>
-                    <div class="emp-card"><div class="avatar lg">TK</div><h4>Tural Kərimli</h4><small>Pəncərə / Fasad</small><p class="rate">⭐ 4.7</p></div>
-                    <div class="emp-card"><div class="avatar lg">SM</div><h4>Səbinə Məmmədova</h4><small>Dezinfeksiya</small><p class="rate">⭐ 5.0</p></div>
-                </div>
-            </section>
-
-            <!-- SERVICES -->
-            <section class="page" id="services">
-                <div class="page-head"><h1>🧽 Xidmətlər</h1><button class="btn btn-primary">+ Xidmət</button></div>
-                <div class="card">
-                    <table class="table full">
-                        <thead><tr><th>Xidmət</th><th>Qiymət (saat)</th><th>İşçi sayı</th><th>Vəziyyət</th></tr></thead>
-                        <tbody id="services-body">
-                            <tr><td>🏠 Ev təmizliyi</td><td>₼ 15</td><td>1-2 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
-                            <tr><td>🏢 Ofis təmizliyi</td><td>₼ 20</td><td>2-4 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
-                            <tr><td>🪟 Pəncərə yuyulması</td><td>₼ 12</td><td>1 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
-                            <tr><td>🦠 Dezinfeksiya</td><td>₼ 25</td><td>2 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- FINANCE -->
-            <section class="page" id="finance">
-                <div class="page-head"><h1>💰 Maliyyə hesabatı</h1></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon green">💵</div><div><h3>₼ 18,450</h3><p>Aylıq gəlir</p></div></div>
-                    <div class="stat-card"><div class="stat-icon orange">💸</div><div><h3>₼ 4,200</h3><p>Xərclər</p></div></div>
-                    <div class="stat-card"><div class="stat-icon blue">📈</div><div><h3>₼ 14,250</h3><p>Xalis qazanc</p></div></div>
-                </div>
-                <div class="card mt-20"><div class="card-head"><h3>Gəlir / Xərc</h3></div><canvas id="financeChart" height="120"></canvas></div>
-            </section>
-
-            <!-- SETTINGS -->
-            <section class="page" id="settings">
-                <div class="page-head"><h1>⚙️ Tənzimləmələr</h1></div>
-                <div class="card">
-                    <div class="setting-row"><span>🌙 Tünd rejim</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
-                    <div class="setting-row"><span>🔔 SMS bildirişləri</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
-                    <div class="setting-row"><span>📧 Avtomatik e-poçt</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-                    <div class="setting-row"><span>🔐 İki mərhələli giriş</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
-                    <hr>
-                    <button class="btn btn-primary">Yadda saxla</button>
-                </div>
-            </section>
-
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>Aylıq gəlir</h3><select class="mini-select"><option>2026</option></select></div><canvas id="revenueChart" height="120"></canvas></div>
+          <div class="card"><div class="card-head"><h3>Xidmət bölgüsü</h3></div><canvas id="serviceChart" height="200"></canvas></div>
         </div>
-    </main>
+        <div class="card mt-20">
+          <div class="card-head"><h3>Son sifarişlər</h3><a href="#" class="link">Hamısı →</a></div>
+          <table class="table">
+            <thead><tr><th>Müştəri</th><th>Xidmət</th><th>Ünvan</th><th>Status</th><th>Məbləğ</th></tr></thead>
+            <tbody>
+              <tr><td>Leyla Məmmədova</td><td>Ev təmizliyi</td><td>Nərimanov</td><td><span class="tag green">Tamamlandı</span></td><td>₼ 45</td></tr>
+              <tr><td>Elvin Həsənli</td><td>Ofis təmizliyi</td><td>Yasamal</td><td><span class="tag blue">Gedişdə</span></td><td>₼ 120</td></tr>
+              <tr><td>Aynur Əliyeva</td><td>Pəncərə</td><td>Xətai</td><td><span class="tag yellow">Gözləyir</span></td><td>₼ 30</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-    <script src="js/admin.js"></script>
+      <!-- ORDERS -->
+      <section id="orders" class="page">
+        <div class="page-head"><h1>🧾 Sifarişlər</h1><button class="btn btn-primary">+ Yeni</button></div>
+        <div class="card">
+          <table class="table full">
+            <thead><tr><th>#ID</th><th>Müştəri</th><th>Xidmət</th><th>Tarix</th><th>İşçi</th><th>Status</th><th>Əməliyyat</th></tr></thead>
+            <tbody>
+              <tr><td>#1042</td><td>Leyla Məmmədova</td><td>Ev təmizliyi</td><td>10.07.2026</td><td>Əli R.</td><td><span class="tag green">Tamamlandı</span></td><td><button class="btn-sm">Bax</button></td></tr>
+              <tr><td>#1043</td><td>Elvin Həsənli</td><td>Ofis təmizliyi</td><td>10.07.2026</td><td>Zeynəb K.</td><td><span class="tag blue">Gedişdə</span></td><td><button class="btn-sm">Bax</button></td></tr>
+              <tr><td>#1044</td><td>Aynur Əliyeva</td><td>Pəncərə</td><td>11.07.2026</td><td>—</td><td><span class="tag yellow">Gözləyir</span></td><td><button class="btn-sm">Bax</button></td></tr>
+              <tr><td>#1045</td><td>Kamran Q.</td><td>Dezinfeksiya</td><td>11.07.2026</td><td>—</td><td><span class="tag gray">Yeni</span></td><td><button class="btn-sm">Bax</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section id="customers" class="page">
+        <div class="page-head"><h1>👥 Müştərilər</h1></div>
+        <div class="card">
+          <table class="table full">
+            <thead><tr><th>Ad</th><th>Telefon</th><th>Ünvan</th><th>Sifariş</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Leyla Məmmədova</td><td>+994 50 123 45 67</td><td>Nərimanov</td><td>12</td><td><span class="tag green">Aktiv</span></td></tr>
+              <tr><td>Elvin Həsənli</td><td>+994 55 987 65 43</td><td>Yasamal</td><td>8</td><td><span class="tag green">Aktiv</span></td></tr>
+              <tr><td>Aynur Əliyeva</td><td>+994 70 111 22 33</td><td>Xətai</td><td>5</td><td><span class="tag gray">Passiv</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EMPLOYEES -->
+      <section id="employees" class="page">
+        <div class="page-head"><h1>🧑‍🔧 İşçilər</h1><button class="btn btn-primary">+ İşçi</button></div>
+        <div class="emp-grid" id="employees-grid">
+          <div class="emp-card"><div class="avatar lg">ƏR</div><h4>Əli Rəhimov</h4><small>Ev təmizliyi</small><p class="rate">⭐ 4.8</p></div>
+          <div class="emp-card"><div class="avatar lg">ZK</div><h4>Zeynəb Kərimova</h4><small>Ofis / Korporativ</small><p class="rate">⭐ 4.9</p></div>
+          <div class="emp-card"><div class="avatar lg">TK</div><h4>Tural Kərimli</h4><small>Pəncərə / Fasad</small><p class="rate">⭐ 4.7</p></div>
+          <div class="emp-card"><div class="avatar lg">SM</div><h4>Səbinə Məmmədova</h4><small>Dezinfeksiya</small><p class="rate">⭐ 5.0</p></div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="services" class="page">
+        <div class="page-head"><h1>🧽 Xidmətlər</h1><button class="btn btn-primary">+ Xidmət</button></div>
+        <div class="card">
+          <table class="table full">
+            <thead><tr><th>Xidmət</th><th>Qiymət (saat)</th><th>İşçi sayı</th><th>Vəziyyət</th></tr></thead>
+            <tbody>
+              <tr><td>🏠 Ev təmizliyi</td><td>₼ 15</td><td>1-2 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
+              <tr><td>🏢 Ofis təmizliyi</td><td>₼ 20</td><td>2-4 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
+              <tr><td>🪟 Pəncərə yuyulması</td><td>₼ 12</td><td>1 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
+              <tr><td>🦠 Dezinfeksiya</td><td>₼ 25</td><td>2 nəfər</td><td><span class="tag green">Aktiv</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PAYMENTS -->
+      <section id="payments" class="page">
+        <div class="page-head"><h1>💳 Ödənişlər</h1></div>
+        <div class="card">
+          <table class="table full">
+            <thead><tr><th>#ID</th><th>Sifariş</th><th>Məbləğ</th><th>Method</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>#1</td><td>#1042</td><td>₼ 45</td><td>nağd</td><td><span class="tag green">Ödənilib</span></td></tr>
+              <tr><td>#2</td><td>#1043</td><td>₼ 120</td><td>kart</td><td><span class="tag yellow">Gözləyir</span></td></tr>
+              <tr><td>#3</td><td>#1044</td><td>₼ 30</td><td>nağd</td><td><span class="tag yellow">Gözləyir</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FINANCE -->
+      <section id="finance" class="page">
+        <div class="page-head"><h1>💰 Maliyyə</h1></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon green">💵</div><div><h3>₼ 18,450</h3><p>Aylıq gəlir</p></div></div>
+          <div class="stat-card"><div class="stat-icon orange">💸</div><div><h3>₼ 4,200</h3><p>Xərclər</p></div></div>
+          <div class="stat-card"><div class="stat-icon blue">📈</div><div><h3>₼ 14,250</h3><p>Xalis qazanc</p></div></div>
+        </div>
+        <div class="card mt-20"><div class="card-head"><h3>Gəlir / Xərc</h3></div><canvas id="financeChart" height="120"></canvas></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="page">
+        <div class="page-head"><h1>⚙️ Tənzimləmələr</h1></div>
+        <div class="card">
+          <div id="settingsContent">
+            <div class="setting-row"><span>🌙 Tünd rejim</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+            <div class="setting-row"><span>🔔 SMS bildirişləri</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+            <div class="setting-row"><span>📧 Avtomatik e-poçt</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+            <div class="setting-row"><span>🔐 İki mərhələli giriş</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+            <hr>
+            <button class="btn btn-primary">Yadda saxla</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/admin.js"></script>
 </body>
 </html>
