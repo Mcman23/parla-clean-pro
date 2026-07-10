@@ -1,49 +1,45 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
+// backend/routes/auth.js
+const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const { pool } = require('../db');
-
-const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'parla-secret-key-change-me';
+const bcrypt = require('bcryptjs');
+const config = require('../config');
+const { User, sequelize } = require('../models');
+const auth = require('../middleware/auth');
 
 // POST /api/auth/login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(400).json({ message: 'İstifadəçi adı və şifrə tələb olunur' });
-    }
+    if (!username || !password) return res.status(400).json({ error: 'İstifadəçi adı və şifrə tələb olunur' });
 
-    const [rows] = await pool.execute(
-      'SELECT * FROM Users WHERE username = ?',
-      [username]
-    );
+    const user = await User.findOne({ where: { username } });
+    if (!user) return res.status(401).json({ error: 'İstifadəçi tapılmadı' });
 
-    if (rows.length === 0) {
-      return res.status(401).json({ message: 'İstifadəçi tapılmadı' });
-    }
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(401).json({ error: 'Yanlış şifrə' });
 
-    const user = rows[0];
-    const valid = bcrypt.compareSync(password, user.password);
-    if (!valid) {
-      return res.status(401).json({ message: 'Şifrə yanlışdır' });
-    }
+    const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+    res.json({ token, user: { id: user.id, username: user.username, email: user.email, role: user.role } });
+  } catch (err) { next(err); }
+});
 
-    const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+// GET /api/auth/me
+router.get('/me', auth, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.user.id, { attributes: ['id', 'username', 'email', 'role'] });
+    if (!user) return res.status(404).json({ error: 'İstifadəçi tapılmadı' });
+    res.json(user);
+  } catch (err) { next(err); }
+});
 
-    res.json({
-      message: 'Giriş uğurlu',
-      token,
-      user: { id: user.id, username: user.username, email: user.email, role: user.role },
-    });
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ message: 'Server xətası' });
-  }
+// POST /api/auth/register (admin-only)
+router.post('/register', auth, async (req, res, next) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ error: 'Yalnız admin' });
+    const { username, email, password, role } = req.body;
+    const user = await User.create({ username, email, password, role: role || 'user' });
+    res.status(201).json({ id: user.id, username: user.username, email: user.email, role: user.role });
+  } catch (err) { next(err); }
 });
 
 module.exports = router;

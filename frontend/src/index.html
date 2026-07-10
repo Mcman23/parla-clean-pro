@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parla Təmizlik - Peşəkar Təmizlik Xidmətləri</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -175,11 +175,11 @@
                 <input type="email" name="email" placeholder="E-poçt ünvanınız">
                 <select name="service" required>
                     <option value="">Xidmət növü seçin</option>
-                    <option>Ev Təmizliyi</option>
-                    <option>Ofis Təmizliyi</option>
-                    <option>Pəncərə Yuyulması</option>
-                    <option>Tikinti Sonrası</option>
-                    <option>Dezinfeksiya</option>
+                    <option value="1">Ev Təmizliyi</option>
+                    <option value="2">Ofis Təmizliyi</option>
+                    <option value="3">Pəncərə Yuyulması</option>
+                    <option value="4">Tikinti Sonrası</option>
+                    <option value="5">Dezinfeksiya</option>
                 </select>
                 <textarea name="message" placeholder="Mesajınız (istəyə bağlı)" rows="4"></textarea>
                 <button type="submit" class="btn btn-primary btn-full">Göndər</button>
@@ -214,51 +214,11 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Parla Təmizlik. Bütün hüquqlar qorunur.</p>
+            <p>© 2026 Parla Təmizlik. Bütün hüquqlar qorunur. <a href="admin.html" style="color:rgba(255,255,255,.3);font-size:.8rem;">Admin</a></p>
         </div>
     </footer>
 
-    <script>
-        const API_URL = 'https://parla-clean-pro.onrender.com/api';
-
-        // Mobil menyu
-        const toggle = document.getElementById('menuToggle');
-        const links = document.querySelector('.nav-links');
-        toggle.addEventListener('click', () => links.classList.toggle('active'));
-
-        // Əlaqə forması — backend-ə göndərir
-        const form = document.getElementById('contactForm');
-        const formMsg = document.getElementById('formMsg');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = form.querySelector('button[type="submit"]');
-            btn.textContent = 'Göndərilir...';
-            btn.disabled = true;
-
-            const data = Object.fromEntries(new FormData(form));
-            try {
-                const res = await fetch(`${API_URL}/contact`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-                const result = await res.json();
-                if (res.ok) {
-                    formMsg.innerHTML = '✅ Təşəkkür edirik! Müraciətiniz qeydə alındı.';
-                    formMsg.className = 'form-msg success';
-                    form.reset();
-                } else {
-                    throw new Error(result.message || 'Xəta');
-                }
-            } catch (err) {
-                formMsg.innerHTML = '⚠️ Göndərmək mümkün olmadı. Zəhmət olmasa telefon ilə əlaqə saxlayın.';
-                formMsg.className = 'form-msg error';
-            } finally {
-                btn.textContent = 'Göndər';
-                btn.disabled = false;
-            }
-        });
-    </script>
+    <script>const API_URL='https://parla-clean-backend.onrender.com/api';</script>
+    <script src="js/main.js"></script>
 </body>
 </html>

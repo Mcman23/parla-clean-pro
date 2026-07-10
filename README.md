@@ -6,59 +6,77 @@ Peşəkar təmizlik xidmətləri üçün veb sayt + admin panel.
 
 ```
 parla-clean-pro/
-├── frontend/           # Statik HTML/CSS/JS (GitHub Pages)
-│   ├── index.html
-│   └── style.css
-├── backend/            # Express.js API (Render)
-│   ├── server.js
-│   ├── db.js
-│   ├── package.json
-│   ├── routes/
-│   │   ├── contacts.js  # POST /api/contact
-│   │   ├── auth.js      # POST /api/auth/login
-│   │   └── admin.js     # GET/PUT/DELETE /api/admin/*
-│   └── middleware/
-│       └── auth.js
-├── database.sql        # MySQL schema + default admin
-├── .github/workflows/
-│   └── deploy.yml      # Render deploy workflow
-└── README.md
+├─ backend/                # Express + Sequelize + MySQL (Render)
+│  ├─ config.js            # DB & mail config
+│  ├─ server.js            # Express app + REST API
+│  ├─ data.sql             # MySQL seed data
+│  ├─ routes/
+│  │  ├─ auth.js           # POST /api/auth/login, /me, /register
+│  │  ├─ orders.js         # CRUD /api/orders
+│  │  ├─ customers.js      # CRUD /api/customers
+│  │  ├─ employees.js      # CRUD /api/employees
+│  │  ├─ services.js       # CRUD /api/services
+│  │  └─ payments.js       # CRUD /api/payments + /stats
+│  ├─ middleware/
+│  │  ├─ auth.js           # JWT verification
+│  │  └─ error.js          # Global error handler
+│  ├─ models/
+│  │  └─ index.js          # Sequelize models (User, Customer, Service, Employee, Order, Payment)
+│  ├─ utils/
+│  │  └─ email.js          # Nodemailer utility
+│  ├─ .env.example
+│  └─ package.json
+├─ frontend/
+│  ├─ src/
+│  │  ├─ index.html        # Əsas sayt
+│  │  ├─ admin.html        # Admin panel
+│  │  ├─ css/
+│  │  │  ├─ style.css      # Sayt stilləri
+│  │  │  └─ admin.css      # Admin stilləri
+│  │  ├─ js/
+│  │  │  ├─ main.js        # Sayt logikası (contact form, API)
+│  │  │  └─ admin.js       # Admin panel (charts, API, CRUD)
+│  └─ public/              # Static assets
+└─ README.md
 ```
 
-## Deploy addımları
+## Deploy
 
-### 1. GitHub Repo
-Bu repo artıq GitHub-da: `Mcman23/parla-clean-pro`
+### Frontend — GitHub Pages
+- `gh-pages` branch: `frontend/src/` içindəki fayllar root səviyyəsində
+- URL: https://mcman23.github.io/parla-clean-pro/
+- Admin: https://mcman23.github.io/parla-clean-pro/admin.html
 
-### 2. Frontend — GitHub Pages
-- `gh-pages` branch-ində `frontend/` qovluğunun içindəki fayllar var
-- GitHub → Settings → Pages → Source: `gh-pages` branch → `/ (root)`
-- URL: `https://mcman23.github.io/parla-clean-pro/`
-
-### 3. Backend — Render
-- Render.com → New → Web Service → GitHub repo seç → `backend` qovluğu
-- Build Command: `npm install`
-- Start Command: `npm start`
+### Backend — Render
+- render.com → New → Web Service → GitHub `Mcman23/parla-clean-pro`
+- Root Directory: `backend`
+- Build: `npm install` / Start: `npm start`
 - Environment Variables:
   - `DB_HOST` — MySQL host
   - `DB_USER` — MySQL istifadəçi
   - `DB_PASS` — MySQL şifrə
   - `DB_NAME` — `parla_clean`
   - `JWT_SECRET` — təsadüfi string
-  - `RENDER_DEPLOY_HOOK` — (optional) Render deploy hook URL
+  - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` (optional)
 
-### 4. Database
-`database.sql` faylını MySQL-də bir dəfə işə salın. Admin user avtomatik yaradılır:
-- Username: `admin`
-- Password: `admin123`
+### Database
+`backend/data.sql` faylını MySQL-də işə sal. Sequelize sync cədvəlləri yaradır, bu fayl seed məlumatlarını əlavə edir.
+- Admin: `admin` / `admin123`
 
 ## API Endpoints
 
-| Method | Path | Açıqlama |
-|--------|------|----------|
-| POST | `/api/contact` | Əlaqə forması (public) |
-| POST | `/api/auth/login` | Admin login |
-| GET | `/api/admin/contacts` | Bütün müraciətlər (auth) |
-| PUT | `/api/admin/contacts/:id` | Status yenilə (auth) |
-| DELETE | `/api/admin/contacts/:id` | Müraciəti sil (auth) |
-| GET | `/api/admin/stats` | Dashboard statistika (auth) |
+| Method | Path | Auth | Açıqlama |
+|--------|------|------|----------|
+| POST | `/api/auth/login` | — | Admin login |
+| GET | `/api/auth/me` | ✅ | Cari istifadəçi |
+| GET | `/api/orders` | ✅ | Sifarişlər siyahısı |
+| POST | `/api/orders` | — | Yeni sifariş (formadan) |
+| PUT | `/api/orders/:id` | ✅ | Sifariş yenilə |
+| DELETE | `/api/orders/:id` | ✅ | Sifariş sil |
+| GET | `/api/customers` | ✅ | Müştərilər |
+| POST | `/api/customers` | ✅ | Müştəri əlavə |
+| GET | `/api/employees` | ✅ | İşçilər |
+| GET | `/api/services` | — | Xidmətlər (public) |
+| POST | `/api/services` | ✅ | Xidmət əlavə |
+| GET | `/api/payments` | ✅ | Ödənişlər |
+| GET | `/api/payments/stats` | ✅ | Maliyyə statistika |

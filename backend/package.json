@@ -1,18 +1,21 @@
 {
-  "name": "parla-clean-pro-backend",
+  "name": "parla-clean-backend",
   "version": "1.0.0",
-  "description": "Parla Təmizlik - Backend API (Express + MySQL)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.11.0"
-  }
+    "mysql2": "^3.6.0",
+    "nodemailer": "^6.9.3",
+    "sequelize": "^6.32.1"
+  },
+  "engines": { "node": ">=18" }
 }

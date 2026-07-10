@@ -1,20 +1,18 @@
+// backend/middleware/auth.js — JWT auth middleware
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'parla-secret-key-change-me';
-
-function authMiddleware(req, res, next) {
+module.exports = (req, res, next) => {
   const header = req.headers.authorization;
   if (!header || !header.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Token tələb olunur' });
+    return res.status(401).json({ error: 'Token tələb olunur' });
   }
-  const token = header.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const token = header.split(' ')[1];
+    const decoded = jwt.verify(token, config.jwt.secret);
     req.user = decoded;
     next();
   } catch {
-    return res.status(401).json({ message: 'Token etibarsızdır' });
+    return res.status(401).json({ error: 'Yanlış və ya müddəti bitmiş token' });
   }
-}
-
-module.exports = authMiddleware;
+};
