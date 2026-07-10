@@ -9,8 +9,8 @@ const sequelize = new Sequelize(
 const User = sequelize.define('User', {
   username: { type: DataTypes.STRING, unique: true },
   email: { type: DataTypes.STRING, unique: true },
-  password: DataTypes.STRING, // MD5 hash
-  role: { type: DataTypes.STRING, defaultValue: 'admin' } // or 'staff'
+  password: DataTypes.STRING,
+  role: { type: DataTypes.STRING, defaultValue: 'admin' }
 })
 
 const Customer = sequelize.define('Customer', {
@@ -43,7 +43,8 @@ const Order = sequelize.define('Order', {
   address: DataTypes.STRING,
   date: DataTypes.DATEONLY,
   amount: DataTypes.DECIMAL(10, 2),
-  status: { type: DataTypes.STRING, defaultValue: 'yeni' }
+  status: { type: DataTypes.STRING, defaultValue: 'yeni' },
+  notes: DataTypes.TEXT
 })
 
 const Payment = sequelize.define('Payment', {
@@ -53,7 +54,6 @@ const Payment = sequelize.define('Payment', {
   status: { type: DataTypes.STRING, defaultValue: 'gözləyir' }
 })
 
-// Associations
 Order.belongsTo(Customer, { foreignKey: 'customerId', as: 'customer' })
 Order.belongsTo(Service, { foreignKey: 'serviceId', as: 'service' })
 Order.belongsTo(Employee, { foreignKey: 'employeeId', as: 'employee' })
