@@ -1,47 +1,40 @@
-// backend/server.js — Express + REST API
-const express = require('express');
-const cors = require('cors');
-const config = require('./config');
-const { sequelize } = require('./models');
-const errorHandler = require('./middleware/error');
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const { sequelize } = require('./models')
+const authRoutes = require('./routes/auth')
+const orderRoutes = require('./routes/orders')
+const customerRoutes = require('./routes/customers')
+const employeeRoutes = require('./routes/employees')
+const serviceRoutes = require('./routes/services')
+const paymentRoutes = require('./routes/payments')
+const errorHandler = require('./middleware/error')
 
-const authRoutes = require('./routes/auth');
-const ordersRoutes = require('./routes/orders');
-const customersRoutes = require('./routes/customers');
-const employeesRoutes = require('./routes/employees');
-const servicesRoutes = require('./routes/services');
-const paymentsRoutes = require('./routes/payments');
+const app = express()
+app.use(cors())
+app.use(express.json())
 
-const app = express();
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }))
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use('/api/auth', authRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/customers', customerRoutes)
+app.use('/api/employees', employeeRoutes)
+app.use('/api/services', serviceRoutes)
+app.use('/api/payments', paymentRoutes)
 
-// ── Routes ──
-app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
+app.use(errorHandler)
 
-app.use('/api/auth', authRoutes);
-app.use('/api/orders', ordersRoutes);
-app.use('/api/customers', customersRoutes);
-app.use('/api/employees', employeesRoutes);
-app.use('/api/services', servicesRoutes);
-app.use('/api/payments', paymentsRoutes);
-
-// ── Error handler (last middleware) ──
-app.use(errorHandler);
-
-// ── Start ──
-const PORT = config.port;
-app.listen(PORT, async () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  try {
-    await sequelize.authenticate();
-    console.log('✅ DB connected');
-    await sequelize.sync({ alter: true });
-    console.log('✅ Tables synced');
-  } catch (err) {
-    console.log('❌ DB connection failed:', err.message);
-    console.log('   Server running (DB not connected)');
-  }
-});
+const port = process.env.PORT || 5000
+sequelize.authenticate()
+  .then(() => {
+    console.log('✅ DB connected')
+    return sequelize.sync({ alter: true })
+  })
+  .then(() => {
+    app.listen(port, () => console.log(`🚀 Server on ${port}`))
+  })
+  .catch(err => {
+    console.log('❌ DB error:', err.message)
+    app.listen(port, () => console.log(`🚀 Server on ${port} (DB not connected)`))
+  })

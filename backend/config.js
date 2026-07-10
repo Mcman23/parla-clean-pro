@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = {
   db: {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || '127.0.0.1',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '',
     name: process.env.DB_NAME || 'parla_clean',
@@ -15,11 +15,8 @@ module.exports = {
     expiresIn: '8h'
   },
   mail: {
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    user: process.env.SMTP_USER || '',
-    pass: process.env.SMTP_PASS || '',
-    from: process.env.SMTP_FROM || 'noreply@parla.az'
+    user: process.env.MAIL_USER || '',
+    pass: process.env.MAIL_PASS || ''
   },
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 5000
 };
